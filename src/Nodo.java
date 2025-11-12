@@ -87,6 +87,7 @@ public class Nodo {
             int [][] destino=new int[3][3];
             copiaArray(aux,destino);
             int temporal=destino[fila+1][columna];
+            destino[fila+1][columna]=0;
             destino[fila][columna]=temporal;
             //Tengo el movimiento en destino
             //Creamos el hijo y lo metemos en la lista
@@ -97,12 +98,61 @@ public class Nodo {
       
     }//MueveAbajo
 
+
+private void MueveArriba( int fila, int columna,int[][] nodoaux) {
+        if (fila > 0)// Comprobamos que podemos mover
+        {
+            int[][] destino = new int[3][3];
+            copiaArray(nodoaux, destino);
+            int temporal = destino[fila - 1][columna];
+            destino[fila - 1][columna] = 0;
+            destino[fila][columna] = temporal;
+
+            // Ahora creamos el hijo
+            Nodo hijo = new Nodo(destino);
+            hijo.padre = this;// Le indico quien es el padre
+            hijos.add(hijo); // 
+        }// if fila
+    }// MueveArriba
+
+    private void MueveIzquierda( int fila, int columna,int[][] nodoaux) {
+        if (columna > 0)// Comprobamos que podemos mover
+        {
+            int[][] destino = new int[3][3];
+            copiaArray(nodoaux, destino);
+            int temporal = destino[fila][columna - 1];
+            destino[fila][columna - 1] = 0;
+            destino[fila][columna] = temporal;
+
+            // Ahora creamos el hijo
+            Nodo hijo = new Nodo(destino);
+            hijo.padre = this;// Le indico quien es el padre
+            hijos.add(hijo); //
+        }// if columna
+    }// MueveIzquierda
+
+    private void MueveDerecha( int fila, int columna,int[][] nodoaux) {
+        if (columna < 2)// Comprobamos que podemos mover
+        {
+            int[][] destino = new int[3][3];
+            copiaArray(nodoaux, destino);
+            int temporal = destino[fila][columna + 1];
+            destino[fila][columna + 1] = 0;
+            destino[fila][columna] = temporal;
+
+            // Ahora creamos el hijo
+            Nodo hijo = new Nodo(destino);
+            hijo.padre = this;// Le indico quien es el padre
+            hijos.add(hijo); //
+        }// if columna
+    }// MueveDerecha
+
     //Método para copiar array
     private void copiaArray(int[][] aux, int[][] destino) {
       for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 destino[i][j]=aux[i][j];
-                }//if
+         
             }//2º for
 
         }//1 for
