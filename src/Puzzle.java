@@ -7,6 +7,7 @@ public class Puzzle {
     public List<Nodo> busquedaAnchura(Nodo Root){
         List<Nodo> abiertos=new ArrayList<>();//Nodos por visitar
         List<Nodo> cerrados=new ArrayList<>();//Nodos visitados
+        List<Nodo> solucion=new ArrayList<>();//Solución encontrada
         abiertos.add(Root);
 
         while (abiertos.size()>0) {
@@ -16,7 +17,8 @@ public class Puzzle {
             if(actual.esMeta()){
                 //Hemos encontrado la solución
                 System.out.println("Fenómeno!!!!!");
-                return null;//Cambiar.
+                solucion=trazaSolucion(actual);
+                return solucion;
             }
             //Expandimos los nodos
             actual.expandirNodo();
@@ -32,6 +34,17 @@ public class Puzzle {
 
         return null;//Quiere decir que no hemos encontrado solución.
     }//busquedaAnchura
+
+
+    private List<Nodo> trazaSolucion(Nodo actual) {
+        List<Nodo> solucion=new ArrayList<>();
+        Nodo aux=actual;
+        while(aux!=null){
+            solucion.add(0,aux);//Lo meto al principio
+            aux=aux.padre;
+        }
+        return solucion;
+    }//trazaSolucion
 
 
     /////Coimprueba si está ese nodo en la lista que se le pase
