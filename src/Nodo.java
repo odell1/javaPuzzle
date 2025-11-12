@@ -158,6 +158,17 @@ private void MueveArriba( int fila, int columna,int[][] nodoaux) {
         }//1 for
     }//copiarArray
 
+    public boolean esMismoNodo(Nodo hijoActual) {
+     for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+             if(hijoActual.nodo[i][j]!=nodo[i][j]) return false;
+            }
+
+        }
+    return true;
+
+    }//esMismoNodo
+
 
     //Getter & Setters
     public int[][] getNodo() {
@@ -178,6 +189,7 @@ private void MueveArriba( int fila, int columna,int[][] nodoaux) {
     public void setHijos(List<Nodo> hijos) {
         this.hijos = hijos;
     }
+
 
     
 
