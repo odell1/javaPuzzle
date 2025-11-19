@@ -9,6 +9,7 @@ public class Nodo {
     public int [][] nodo=new int[3][3];
     public Nodo padre; //Referencia al nodo padre
     public List<Nodo> hijos=new ArrayList<>(); //Lista de hijos sucesores. 
+    public int Costo;//Costo para la profundidad
     
 
     // Constructores
@@ -168,7 +169,7 @@ private void MueveArriba( int fila, int columna,int[][] nodoaux) {
     return true;
 
     }//esMismoNodo
-    
+
 public boolean esMismoNodo(int[][] aux) { // ¡Cambiado a int[][] aux!
      for (int i = 0; i < 3; i++) {
          for (int j = 0; j < 3; j++) {

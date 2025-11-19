@@ -92,7 +92,7 @@ public class Puzzle {
                 }
             }//for
             System.out.println("Vueltas del bucle DFS: " + (++contador) + ", Tamaño abiertos: " + abiertos.size() + ", Tamaño cerrados: " + cerrados.size());
-            
+
         }//while
 
         return null;//Quiere decir que no hemos encontrado solución.
@@ -100,6 +100,71 @@ public class Puzzle {
 
 // ---------------------------------------------------------------------
 
+/**
+     * Búsqueda en Profundidad Acotada (DLS).
+     * Realiza una DFS limitada a una profundidad máxima 'limite'.
+     * @param Root El nodo inicial.
+     * @param limite La profundidad máxima (Costo) a explorar.
+     * @return Lista de Nodos con el camino solución, o null si no se encuentra.
+     */
+    public List<Nodo> busquedaProfundidadAcotada(Nodo Root, int limite) {
+        
+        // Variables
+        List<Nodo> abiertos = new ArrayList<>();
+        List<Nodo> cerrados = new ArrayList<>(); 
+        List<Nodo> caminoSolucion = new ArrayList<>(); 
+        
+
+        //Inicializar el costo/profundidad del nodo raíz
+        Root.Costo = 0; // El coste del nodo raíz es 0
+        abiertos.add(Root); // Añadir el raíz (Push)
+
+        while (abiertos.size() > 0) {
+            
+            // Cogemos y eliminamos el último elemento
+            int ultimoIndice = abiertos.size() - 1;
+            Nodo actual = abiertos.get(ultimoIndice);
+            
+            cerrados.add(actual); // Marcamos como visitado
+
+            // 1. Verificar si es la meta
+            if (actual.esMeta()) { 
+                
+                trazaSolucion(actual); 
+                return caminoSolucion;
+            }
+            abiertos.remove(ultimoIndice);
+
+           
+            //Solo expandimos el nodo si su profundidad (Costo) es menor que el límite.
+            if (actual.Costo < limite) { 
+
+                //Expandimos el nodo actual
+                actual.expandirNodo(); 
+                
+                for (int i = 0; i < actual.hijos.size(); i++) {
+                    Nodo hijoActual = actual.hijos.get(i);
+                    
+                    //profundidad acumulada
+                    hijoActual.Costo = actual.Costo + 1; 
+
+                    //Si no está en abiertos ni en cerrados
+                    if (!contiene(abiertos, hijoActual) && !contiene(cerrados, hijoActual)) { 
+                        //Metemos como una posible solución (Push en la Pila)
+                        abiertos.add(hijoActual); 
+                    }//if
+                }//for
+            }
+    
+        }//while
+
+        // Si se vacía la lista 'abiertos' sin encontrar la meta dentro del límite.
+        System.out.println("No se encontró solución en el límite " + limite);
+        return null;
+
+}//busquedaProfundidadAcotada
+
+// ******************************************************
     private List<Nodo> trazaSolucion(Nodo actual) {
         List<Nodo> solucion=new ArrayList<>();
         Nodo aux=actual;
