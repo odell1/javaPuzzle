@@ -26,7 +26,7 @@ public class App {
     }//main
 
 
-/*
+
     private static List<Nodo> profundidad_acotada(int maxima_profundidad, Nodo piezaNodo, Puzzle solucioncilla) {
         // Bucle que incrementa el límite de profundidad en cada iteración
         for (int limite = 10; limite <= maxima_profundidad; limite++) {
@@ -39,5 +39,6 @@ public class App {
                 return solucion;
             }//if
         }//for
-    }*/
+        return null; // No se encontró solución dentro del límite dado
+    }
 }//App
