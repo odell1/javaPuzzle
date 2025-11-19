@@ -10,6 +10,7 @@ public class Nodo {
     public Nodo padre; //Referencia al nodo padre
     public List<Nodo> hijos=new ArrayList<>(); //Lista de hijos sucesores. 
     public int Costo;//Costo para la profundidad
+    public int Heuristica; //Heurística para A*
     
 
     // Constructores
@@ -29,6 +30,19 @@ public class Nodo {
     ///////////
     /// Métodos intersantes a par que curiosos
     /// ////////
+    ///////////// Método para calcular la heurística (número de piezas fuera de lugar)
+    
+    public void calcularHeuristica(){
+        int indice=0;
+        for (int i=0; i<3;i++){
+            for (int j=0; j<3;j++){
+                if(this.nodo[i][j]!=indice) this.Heuristica++;
+            }
+            indice++;
+        }//2for
+
+    }//calcularHeuristica
+
 
     /// Método para comprobar si hemos llegado a la meta o no
     public boolean esMeta(){

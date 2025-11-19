@@ -2,6 +2,9 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
+import java.util.PriorityQueue;
+
+import javax.swing.RootPaneContainer;
 
 public class Puzzle {
     
@@ -113,7 +116,7 @@ public class Puzzle {
         List<Nodo> abiertos = new ArrayList<>();
         List<Nodo> cerrados = new ArrayList<>(); 
         List<Nodo> caminoSolucion = new ArrayList<>(); 
-        
+       
 
         //Inicializar el costo/profundidad del nodo raíz
         Root.Costo = 0; // El coste del nodo raíz es 0
@@ -164,7 +167,51 @@ public class Puzzle {
 
 }//busquedaProfundidadAcotada
 
-// ******************************************************
+
+
+    public List<Nodo> busquedaAsterisco(Nodo Root){
+        PriorityQueue<Nodo> abiertos=new PriorityQueue<>();//Nodos por visitar --- Ordenados por heurística + coste
+        List<Nodo> cerrados=new ArrayList<>();//Nodos visitados
+        List<Nodo> solucion=new ArrayList<>();//Solución encontrada
+        
+        Root.Costo=0;
+        Root.calcularHeuristica();
+        abiertos.add(Root);
+
+        while (!abiertos.isEmpty()) {//si está vacío
+
+            Nodo actual=abiertos.poll();//cojo el primero
+                        
+            if(actual.esMeta()){
+                //Hemos encontrado la solución
+                System.out.println("Búsqueda en A*");
+                solucion=trazaSolucion(actual);
+                return solucion;
+            }
+
+            cerrados.add(actual);
+            //Expandimos los nodos
+            actual.expandirNodo();
+            for (int i = 0; i < actual.hijos.size(); i++) {
+                Nodo hijoActual=actual.hijos.get(i);
+                hijoActual.Costo=actual.Costo+1;//actualizo coste
+                hijoActual.calcularHeuristica();//actualizo heurística
+                if(!contiene(abiertos,hijoActual) && !contiene(cerrados,hijoActual)){
+                    //lo metemos en abiertos
+                    abiertos.add(hijoActual);
+                }
+            }//for
+            //ordenar iría aquí
+        }//while
+
+        return null;//Quiere decir que no hemos encontrado solución.
+    }//busquedaAsterisco
+
+
+
+
+
+    // ******************************************************
     private List<Nodo> trazaSolucion(Nodo actual) {
         List<Nodo> solucion=new ArrayList<>();
         Nodo aux=actual;
@@ -195,5 +242,18 @@ public class Puzzle {
         }
         return false;
     }
+
+////////////////////////
+ private boolean contiene(PriorityQueue<Nodo> abiertos, Nodo hijoActual) {
+     for (Nodo nodo : abiertos) {
+
+         if (nodo.esMismoNodo(hijoActual.nodo)) {
+             return true;
+         }
+     }
+     return false;
+ }
+
+
 
 }//Puzzle
