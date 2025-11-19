@@ -1,4 +1,6 @@
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 
 public class Puzzle {
@@ -35,6 +37,68 @@ public class Puzzle {
         return null;//Quiere decir que no hemos encontrado solución.
     }//busquedaAnchura
 
+// ---------------------------------------------------------------------
+    /**
+     * Búsqueda en Profundidad (DFS - Depth-First Search).
+     * Utiliza una Pila (Deque) para la lista 'abiertos', garantizando un orden LIFO.
+     * * @param Root El nodo inicial.
+     * @return Lista de Nodos con el camino solución, o null si no se encuentra.
+     */
+    public List<Nodo> busquedaProfundidad(Nodo Root){
+        //Cambiamos List a Deque y usamos ArrayDeque como implementación de Pila
+        Deque<Nodo> abiertos = new ArrayDeque<>();// Nodos por visitar (Pila LIFO)
+        List<Nodo> cerrados = new ArrayList<>();// Nodos visitados
+        List<Nodo> solucion = new ArrayList<>();// Solución encontrada
+        int contador=0;//Vueltas del bucle
+        
+        abiertos.push(Root); // Añadir el nodo raíz (Push en la Pila)
+
+        while (!abiertos.isEmpty()) {
+            
+            // *** CAMBIO CLAVE para DFS (LIFO) ***
+            //Usamos pop() para coger y eliminar el ÚLTIMO elemento añadido
+            Nodo actual = abiertos.pop(); 
+            // **********************************
+
+            // Si el nodo ya fue visitado (está en cerrados), lo saltamos
+            // Esto es más estricto que en BFS simple, pero previene ciclos.
+           /* if(contiene(cerrados, actual)) {
+                continue;
+            }
+            */
+                       
+            if(actual.esMeta()){
+                // Hemos encontrado la solución
+                System.out.println("Fenómeno!!!!!");
+                solucion = trazaSolucion(actual);
+                return solucion;
+            } 
+
+            cerrados.add(actual);
+
+            // Expandimos los nodos
+            actual.expandirNodo();
+            
+            //Recorremos los hijos e invertimos el orden de inserción si es necesario 
+            //para que la DFS sea determinista (ej. Derecha antes que Izquierda)
+            //Aquí, simplemente los añadimos: el último hijo expandido será el primero en ser 'pop'
+            for (int i = 0; i < actual.hijos.size(); i++) {
+                Nodo hijoActual = actual.hijos.get(i);
+                
+                //Comprobación de que no esté en ninguna de las dos listas
+                if(!contiene(abiertos, hijoActual) && !contiene(cerrados, hijoActual)){
+                    //lo metemos en abiertos (Push en la Pila)
+                    abiertos.push(hijoActual);
+                }
+            }//for
+            System.out.println("Vueltas del bucle DFS: " + (++contador) + ", Tamaño abiertos: " + abiertos.size() + ", Tamaño cerrados: " + cerrados.size());
+            
+        }//while
+
+        return null;//Quiere decir que no hemos encontrado solución.
+    }//busquedaProfundidad
+
+// ---------------------------------------------------------------------
 
     private List<Nodo> trazaSolucion(Nodo actual) {
         List<Nodo> solucion=new ArrayList<>();
@@ -54,5 +118,17 @@ public class Puzzle {
         }
         return false;
     }//Contiene
+
+    ////////////////////////////////
+    private boolean contiene(Deque<Nodo> lista, Nodo hijoActual) {
+        for (Nodo nodo : lista) {
+            
+        
+            if (nodo.esMismoNodo(hijoActual.nodo)) { 
+                return true;
+            }
+        }
+        return false;
+    }
 
 }//Puzzle

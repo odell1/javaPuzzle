@@ -168,7 +168,19 @@ private void MueveArriba( int fila, int columna,int[][] nodoaux) {
     return true;
 
     }//esMismoNodo
-
+    
+public boolean esMismoNodo(int[][] aux) { // ¡Cambiado a int[][] aux!
+     for (int i = 0; i < 3; i++) {
+         for (int j = 0; j < 3; j++) {
+             // Compara la matriz interna de este nodo (this.nodo)
+             // con la matriz que pasas como argumento (aux)
+             if(aux[i][j] != this.nodo[i][j]) {
+                 return false;
+             }
+         }
+     }
+    return true;
+}//esMismoNodo
 
     //Getter & Setters
     public int[][] getNodo() {
