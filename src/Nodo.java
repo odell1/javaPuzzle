@@ -5,7 +5,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Nodo {
+public class Nodo implements Comparable<Nodo> {
     public int [][] nodo=new int[3][3];
     public Nodo padre; //Referencia al nodo padre
     public List<Nodo> hijos=new ArrayList<>(); //Lista de hijos sucesores. 
@@ -217,8 +217,10 @@ public boolean esMismoNodo(int[][] aux) { // ¡Cambiado a int[][] aux!
         this.hijos = hijos;
     }
 
-
-    
+    @Override
+    public int compareTo(Nodo other) {
+        return Integer.compare(this.Costo+this.Heuristica, other.Costo+other.Heuristica);
+    }
 
 
     

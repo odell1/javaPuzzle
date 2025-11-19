@@ -14,6 +14,7 @@ public class App {
        // List<Nodo> solucion=solucioncilla.busquedaAnchura(piezaNodo);
        // List<Nodo> solucion=solucioncilla.busquedaProfundidad(piezaNodo);
        // List<Nodo> solucion=profundidad_acotada(maxima_profundidad, piezaNodo, solucioncilla);
+        List<Nodo> solucion = solucioncilla.busquedaAsterisco(piezaNodo);
 
         // Iniciar la Interfaz Gráfica en el Event Dispatch Thread de Swing
         SwingUtilities.invokeLater(() -> {
